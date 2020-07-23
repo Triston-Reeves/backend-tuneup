@@ -22,19 +22,25 @@ def profile(fnc):
 
 def read_movies(src):
     """Returns a list of movie titles."""
+    movieDic = {}
     print(f'Reading file: {src}')
     with open(src, 'r') as f:
-        return f.read().splitlines()
+        for movie in f.read().splitlines():
+            if movie not in movieDic:
+                movieDic[movie] = 1
+            else: 
+                movieDic[movie] += 1
+    print(movieDic)
+    return movieDic
+
 @profile
 
 def find_duplicate_movies(src):
     """Returns a list of duplicate movies from a src list."""
     movies = read_movies(src)
-    movies = [movie.lower() for movie in movies]
     duplicates = []
-    while movies:
-        movie = movies.pop()
-        if movie in movies:
+    for movie in movies:
+        if movies[movie] == 2:
             duplicates.append(movie)
     return duplicates
 
